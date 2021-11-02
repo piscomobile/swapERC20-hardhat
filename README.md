@@ -56,3 +56,19 @@ balance.toNumber()
 
 dai address rinkeby
 https://rinkeby.etherscan.io/token/0x5592ec0cfb4dbc12d3ab100b257153436a1f0fea
+
+
+Proposal Test Cases
+TokenA: 0xe8D2A1E88c91DCd5433208d4152Cc4F399a7e91d
+TokenB: 0x18E317A7D70d8fBf8e6E893616b52390EbBdb629
+Swap: 0xCace1b78160AE76398F486c8a18044da0d66d86D
+Los addr1 y addr2 permitireon que el swap disponga 10
+10
+10
+0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
+Balances de addr1 en TokenA y TokenB
+6
+1
+Balances de addr2 en TokenA y TokenB
+4
+9

@@ -23,11 +23,16 @@ describe("Proposal Test Cases", function () {
 
     // We get the contract to deploy
     const Swap = await hre.ethers.getContractFactory("Swapper");
-    swap = await Swap.deploy(tokenA.address , addr1.address , 2 ,tokenB.address , addr2.address , 2  );
+    swap = await Swap.deploy(tokenA.address , addr1.address , 4 ,tokenB.address , addr2.address , 1  );
     await swap.deployed();
     console.log("Swap:", swap.address);
-    await tokenA.connect(addr1).approve(swap.address , 2);
-    await tokenB.connect(addr2).approve(swap.address , 2);
+    await tokenA.connect(addr1).approve(swap.address , 10);
+    await tokenB.connect(addr2).approve(swap.address , 10);
+    let cant = await tokenA.allowance(addr1.address,swap.address);
+    let cant2 = await tokenB.allowance(addr2.address, swap.address);
+    console.log("Los addr1 y addr2 permitireon que el swap disponga 10");
+    console.log(cant.toNumber());
+    console.log(cant2.toNumber());
     
   });
 
@@ -35,9 +40,23 @@ describe("Proposal Test Cases", function () {
   it("check  swap", async function () {
     [owner, addr1] = await ethers.getSigners();
     console.log(owner.address);
+    await swap.connect(addr1).swap();
+    console.log("Balances de addr1 en TokenA y TokenB");
+    let val= await tokenA.balanceOf(addr1.address);
+    let val2=await tokenB.balanceOf(addr1.address);
 
-    await swap.connect(owner).swap();
-    expect(await tokenA.balanceOf(addr1.address).to.equal(8));
+    console.log(val.toNumber());
+    console.log(val2.toNumber());
+
+    console.log("Balances de addr2 en TokenA y TokenB");
+    let val3= await tokenA.balanceOf(addr2.address);
+    let val4=await tokenB.balanceOf(addr2.address);
+
+    console.log(val3.toNumber());
+    console.log(val4.toNumber());
+
+    
+    //expect(await tokenA.balanceOf(addr1.address)).to.equal(4);
     
   });
 
