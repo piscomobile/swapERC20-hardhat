@@ -9,30 +9,44 @@ describe("Proposal Test Cases", function () {
   beforeEach(async function () {
     [owner, addr1, addr2] = await ethers.getSigners();
 
-    const TokenAContract = await ethers.getContractFactory("TokenA");
-    tokenA = await TokenAContract.deploy();
-    tokenA.deployed();
+    const TokenA = await hre.ethers.getContractFactory("TokenA");
+    tokenA = await TokenA.deploy();
+    await tokenA.deployed();
+    await tokenA.mint(addr1.address,10);
+    console.log("TokenA:", tokenA.address);
 
-    const SwapContract = await ethers.getContractFactory("Swap");
-    swap = await SwapContract.deploy(tokenA.address);
+    const TokenB = await hre.ethers.getContractFactory("TokenB");
+    tokenB = await TokenB.deploy();
+    await tokenB.deployed();
+    await tokenB.mint(addr2.address,10);
+    console.log("TokenB:", tokenB.address);
+
+    // We get the contract to deploy
+    const Swap = await hre.ethers.getContractFactory("Swapper");
+    swap = await Swap.deploy(tokenA.address , addr1.address , 2 ,tokenB.address , addr2.address , 2  );
     await swap.deployed();
-    await tokenA.mint(swap.address,10);
-  });
-
-
-  it("check  mint of token", async function () {
-    [owner, addr1] = await ethers.getSigners();
-    await tokenA.mint(swap.address,10);
-    expect(await tokenA.balanceOf(swap.address)).to.equal(20)
+    console.log("Swap:", swap.address);
+    await tokenA.connect(addr1).approve(swap.address , 2);
+    await tokenB.connect(addr2).approve(swap.address , 2);
     
   });
 
-  it("get balance of swap equal to 10", async function () {
+
+  it("check  swap", async function () {
+    [owner, addr1] = await ethers.getSigners();
+    console.log(owner.address);
+
+    await swap.connect(owner).swap();
+    expect(await tokenA.balanceOf(addr1.address).to.equal(8));
+    
+  });
+
+  /*it("get balance of swap equal to 10", async function () {
     [owner, addr1] = await ethers.getSigners();
     let balance = await swap.getBalance(swap.address);
     expect(balance).to.equal(10);
     
-  });
+  });*
 
 /*  it("Should return the amount of proposal created", async function () {
     [owner, addr1] = await ethers.getSigners();

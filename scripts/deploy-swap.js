@@ -18,20 +18,25 @@ async function main() {
   const TokenA = await hre.ethers.getContractFactory("TokenA");
   const tokenA = await TokenA.deploy();
   await tokenA.deployed();
-  
+  await tokenA.mint(addr1.address,10);
   console.log("TokenA:", tokenA.address);
 
   const TokenB = await hre.ethers.getContractFactory("TokenB");
   const tokenB = await TokenB.deploy();
   await tokenB.deployed();
+  await tokenB.mint(addr2.address,10);
   console.log("TokenB:", tokenB.address);
 
   // We get the contract to deploy
-  const Swap = await hre.ethers.getContractFactory("Swap2");
-  const swap = await Swap.deploy("0x5592ec0cfb4dbc12d3ab100b257153436a1f0fea");
+  const Swap = await hre.ethers.getContractFactory("Swapper");
+  const swap = await Swap.deploy(tokenA.address , addr1.address , 2 ,tokenB.address , addr2.address , 3  );
   await swap.deployed();
-
   console.log("Swap:", swap.address);
+  await tokenA.connect(addr1).approve(swap.address , 2);
+  await tokenB.connect(addr2).approve(swap.address , 3);
+  await swap.swap()
+
+
 }
 
 // We recommend this pattern to be able to use async/await everywhere

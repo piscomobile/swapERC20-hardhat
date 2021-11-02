@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
+import "hardhat/console.sol";
+
 import "./IERC20.sol";
 
 /*
@@ -16,7 +18,7 @@ How to swap tokens
 8. Alice and Bob traded tokens successfully.
 */
 
-contract TokenSwap {
+contract Swapper {
     IERC20 public token1;
     address public owner1;
     uint public amount1;
@@ -41,6 +43,7 @@ contract TokenSwap {
     }
 
     function swap() public {
+        console.log(msg.sender);
         require(msg.sender == owner1 || msg.sender == owner2, "Not authorized");
         require(
             token1.allowance(owner1, address(this)) >= amount1,
