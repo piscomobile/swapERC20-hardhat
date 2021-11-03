@@ -7,20 +7,17 @@ import "./IERC20.sol";
 
 contract Swap {
 
-    address private owner;  
-    IERC20 public usdt;
+    address private owner;
+    IERC20 private fromToken;
+    IERC20 private toToken;
 
-
- constructor(address _address){
-
-     usdt= IERC20(_address);
-     owner= msg.sender;
-
- }
-
-    function getBalance(address _address)public view returns (uint ){
-          console.log(usdt.balanceOf(_address));
-          return usdt.balanceOf(_address);
+    constructor(address _fromToken , address _toToken){
+        fromToken = IERC20(_fromToken);
+        toToken = IERC20(_toToken);
     }
 
+    /*function provide(uint _amount){
+        fromToken.approve()
+    }
+*/
 }
