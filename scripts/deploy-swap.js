@@ -12,9 +12,7 @@ async function main() {
   // If this script is run directly using `node` you may want to call compile
   // manually to make sure everything is compiled
   // await hre.run('compile');
-
-
-  
+  [owner, addr1, addr2 ,addr3] = await ethers.getSigners();
   const TokenA = await hre.ethers.getContractFactory("TokenA");
   const tokenA = await TokenA.deploy();
   await tokenA.deployed();

@@ -1,6 +1,6 @@
 //SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.0;
-import "hardhat/console.sol";
+
 contract PersonaContract {
     address private owner;
 
@@ -13,30 +13,31 @@ contract PersonaContract {
     }
 
     struct Persona{
+        
         string name;
         uint age;
         //Legajo[] legajos;
         }
 
-    mapping (address => Persona) private personas;
+    mapping (uint => Persona) private personas;
     
     constructor() {
         
         owner = msg.sender;
     }
 
-    function addPersona(string memory _name , uint _age) public{
+    function addPersona(uint _id , string memory _name , uint _age) public{
 
         //personas[msg.sender]=Persona({name: _name , age: _age , legajos: Legajo[]});
-        personas[msg.sender]=Persona({name: _name , age: _age });
+        personas[_id]=Persona({name: _name , age: _age });
     }
 
-    function getPersonaName() public view returns(string memory){
+    function getPersonaName(uint _id) public view returns(string memory){
 
-        return personas[msg.sender].name;
+        return personas[_id].name;
     }
-    function getPersonaAge() public view returns(uint){
+    function getPersonaAge(uint _id) public view returns(uint){
 
-        return personas[msg.sender].age;
+        return personas[_id].age;
     }
 }

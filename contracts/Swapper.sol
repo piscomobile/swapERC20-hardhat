@@ -1,8 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "hardhat/console.sol";
-
 import "./IERC20.sol";
 
 /*
@@ -43,7 +41,6 @@ contract Swapper {
     }
 
     function swap() public {
-        console.log(msg.sender);
         require(msg.sender == owner1 || msg.sender == owner2, "Not authorized");
         require(
             token1.allowance(owner1, address(this)) >= amount1,

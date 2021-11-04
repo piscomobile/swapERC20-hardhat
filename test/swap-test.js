@@ -30,7 +30,7 @@ describe("Proposal Test Cases", function () {
     await tokenB.connect(addr2).approve(swap.address , 10);
     let cant = await tokenA.allowance(addr1.address,swap.address);
     let cant2 = await tokenB.allowance(addr2.address, swap.address);
-    console.log("Los addr1 y addr2 permitireon que el swap disponga 10");
+    console.log("Los addr1 y addr2 permitieron que el swap disponga 10");
     console.log(cant.toNumber());
     console.log(cant2.toNumber());
     
